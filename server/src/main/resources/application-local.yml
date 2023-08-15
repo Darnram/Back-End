@@ -18,7 +18,7 @@ spring:
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy # set DB column name by snake case
     show-sql: true
-    generate-ddl: true
+    generate-ddl: false
   mvc.pathmatch.matching-strategy: ANT_PATH_MATCHER # Swagger-ui
 
 logging:
