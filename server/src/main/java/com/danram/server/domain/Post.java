@@ -20,6 +20,9 @@ public class Post {
     @Column(name = "member_id", columnDefinition = "bigint")
     private Long memberId;
 
+    @Column(name = "log_id", columnDefinition = "int")
+    private Long logId;
+
     @Column(name = "img", columnDefinition = "text")
     private String img;
 

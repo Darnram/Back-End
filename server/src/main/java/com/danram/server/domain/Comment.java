@@ -20,6 +20,9 @@ public class Comment {
     @Column(name = "member_id", columnDefinition = "bigint")
     private Long memberId;
 
+    @Column(name = "log_id", columnDefinition = "int")
+    private Long logId;
+
     @Column(name = "content", length = 60, columnDefinition = "varchar")
     private String content;
 

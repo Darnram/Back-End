@@ -36,9 +36,8 @@ public class Member {
     @Column(name = "ban", columnDefinition = "boolean")
     private Boolean ban;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "log_id")
-    private DateLog dateLog;
+    @Column(name = "log_id", columnDefinition = "int")
+    private Long logId;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
