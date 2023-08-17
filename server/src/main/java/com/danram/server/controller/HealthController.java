@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = {"HEALTH CHECK"})
 @Slf4j
 public class HealthController {
+
     @GetMapping("ping")
     @ApiOperation(value = "서버 상태를 체크한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "정상 응답"),
     })
     public String pong() {
-        log.error("error");
         return "pong";
     }
 }
