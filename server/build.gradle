@@ -52,6 +52,12 @@ dependencies {
 
     //slack
     implementation 'com.github.maricn:logback-slack-appender:1.4.0'
+
+    //gson
+    implementation 'com.google.code.gson:gson:2.10'
+
+    //model mapper
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
 }
 
 tasks.named('test') {
