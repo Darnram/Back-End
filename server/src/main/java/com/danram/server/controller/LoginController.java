@@ -39,7 +39,7 @@ public class LoginController {
             @RequestParam(name = "code") String code) {
         OauthLoginResponseDto oauthLoginResponseDto = oauthService.getLoginResponseDto(socialLoginType,code);
 
-        Optional<Member> result = memberService.checkDuplicatedEmail(oauthLoginResponseDto.getEmail());
+        Optional<Member> result = memberService.checkDuplicatedEmail(oauthLoginResponseDto.`getEmail());
 
         if(result.isEmpty()) {
             return ResponseEntity.ok(memberService.signUp(oauthLoginResponseDto));

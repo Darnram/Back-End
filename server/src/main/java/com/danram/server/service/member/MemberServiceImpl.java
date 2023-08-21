@@ -12,6 +12,7 @@ import com.danram.server.repository.MemberRepository;
 import com.danram.server.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -24,11 +25,13 @@ public class MemberServiceImpl implements MemberService {
     private final ModelMapper modelMapper;
 
     @Override
+    @Transactional
     public Optional<Member> checkDuplicatedEmail(final String email) {
         return memberRepository.findByEmail(email);
     }
 
     @Override
+    @Transactional
     public LoginResponseDto signUp(final OauthLoginResponseDto oauthLoginResponseDto) {
         long id = System.currentTimeMillis();
 
@@ -65,6 +68,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public LoginResponseDto signIn(final Member member) {
         Token token = tokenRepository.findByMemberId(member.getMemberId()).orElseThrow(() -> new UserIdNotFoundException(member.getMemberId().toString()));
 

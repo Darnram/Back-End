@@ -9,6 +9,8 @@ public interface SocialOauth {
     default SocialLoginType type() {
         if (this instanceof KakaoOauth) {
             return SocialLoginType.kakao;
+        } else if (this instanceof NaverOauth) {
+            return SocialLoginType.naver;
         } else {
             return null;
         }
