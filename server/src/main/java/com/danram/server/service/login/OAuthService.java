@@ -30,8 +30,15 @@ public class OAuthService {
 
     public OauthLoginResponseDto getLoginResponseDto(SocialLoginType socialLoginType, String code) {
         SocialOauth socialOauth = this.findSocialOauthByType(socialLoginType);
-        String idToken = socialOauth.getAccessToken(code);
-        return socialOauth.getLoginResponseDto(idToken);
+
+        if (socialOauth instanceof NaverOauth) {
+            String accessToken = socialOauth.getAccessToken(code);
+            String profileJson = ((NaverOauth) socialOauth).getUserProfile(accessToken);
+            return socialOauth.getLoginResponseDto(profileJson);
+        } else {
+            String idToken = socialOauth.getAccessToken(code);
+            return socialOauth.getLoginResponseDto(idToken);
+        }
     }
 
     private SocialOauth findSocialOauthByType(SocialLoginType socialLoginType) {

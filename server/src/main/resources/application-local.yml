@@ -35,4 +35,8 @@ sns:
   kakao:
     id: ${KAKAO_CLIENT_ID}
     url: ${KAKAO_REDIRECT_URL}
+  naver:
+    id: ${NAVER_CLIENT_ID}
+    secret: ${NAVER_CLIENT_SECRET}
+    url: ${NAVER_REDIRECT_URL}
 
