@@ -22,6 +22,9 @@ public class DateLog {
     @Column(name = "member_id", columnDefinition = "bigint")
     private Long memberId;
 
+    @Column(name = "description",columnDefinition = "varchar",length = 32)
+    private String description;
+
     @Column(name = "created_at", columnDefinition = "date")
     private LocalDate createdAt;
 

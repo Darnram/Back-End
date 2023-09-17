@@ -1,6 +1,8 @@
 package com.danram.server.domain;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,7 +17,7 @@ import java.time.LocalDate;
 public class Party {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "party_id", columnDefinition = "int")
+    @Column(name = "party_id", columnDefinition = "bigint")
     private Long partyId;
 
     @Column(name = "member_id", columnDefinition = "bigint")
@@ -42,6 +44,9 @@ public class Party {
     @Column(name = "max", columnDefinition = "int")
     private Long max;
 
+    @Column(name = "current_count",columnDefinition = "int")
+    private Long currentCount;
+
     @Column(name = "started_at", columnDefinition = "date")
     private LocalDate startedAt;
 
@@ -51,6 +56,15 @@ public class Party {
     @Column(name = "location", length = 50, columnDefinition = "varchar")
     private String location;
 
-    @Column(name = "count", columnDefinition = "int")
-    private Long count; //조회수
+    @Column(name = "view_count", columnDefinition = "int")
+    private Long viewCount; //조회수
+
+    @CreationTimestamp
+    private LocalDate createdAt;
+
+    @UpdateTimestamp
+    private LocalDate updatedAt;
+
+    @Column(name = "deleted_at",columnDefinition = "date")
+    private LocalDate deletedAt;
 }

@@ -10,11 +10,14 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Setter
-@Table(name = "post")
-public class Post {
+@Table(name = "feed")
+public class Feed {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "partyId", columnDefinition = "int")
+    @Column(name = "feed_id", columnDefinition = "int")
+    private Long feedId;
+
+    @Column(name = "party_id",columnDefinition = "int")
     private Long partyId;
 
     @Column(name = "member_id", columnDefinition = "bigint")
@@ -29,6 +32,9 @@ public class Post {
     @Column(name = "content", columnDefinition = "text")
     private String content;
 
-    @Column(name = "heart", columnDefinition = "int")
-    private Long heart;
+    @Column(name = "like_count", columnDefinition = "int")
+    private Long likeCount;
+
+    @Column(name = "comment_count",columnDefinition = "int")
+    private Long commentCount;
 }

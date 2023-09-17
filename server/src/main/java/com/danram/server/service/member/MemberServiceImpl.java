@@ -13,6 +13,7 @@ import com.danram.server.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.transaction.annotation.Transactional;
+import static com.danram.server.config.MapperConfig.modelMapper;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -22,7 +23,6 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final DateLogRepository dateLogRepository;
     private final TokenRepository tokenRepository;
-    private final ModelMapper modelMapper;
 
     @Override
     @Transactional
