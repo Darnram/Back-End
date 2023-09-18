@@ -20,14 +20,17 @@ public class PartyMember {
     @Column(name = "id",nullable = false,columnDefinition = "bigint")
     private Long id;
 
-    @Column(name = "member_id",nullable = false,columnDefinition = "bigint")
-    private Long memberId;
+    @JoinColumn(name = "member_id")
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Member member;
 
-    @Column(name = "party_id",nullable = false,columnDefinition = "bigint")
-    private Long partyId;
+    @JoinColumn(name = "party_id")
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Party party;
 
-    @Column(name = "log_id",nullable = false,columnDefinition = "bigint")
-    private Long logId;
+    @JoinColumn(name = "log_id")
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private DateLog dateLog;
 
     @CreationTimestamp
     private LocalDate createdAt;

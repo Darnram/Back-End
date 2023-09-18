@@ -20,11 +20,13 @@ public class Party {
     @Column(name = "party_id", columnDefinition = "bigint")
     private Long partyId;
 
+    @JoinColumn(name = "member_id")
     @Column(name = "member_id", columnDefinition = "bigint")
     private Long memberId;
 
-    @Column(name = "log_id", columnDefinition = "int")
-    private Long logId;
+    @JoinColumn(name = "log_id")
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private DateLog dateLog;
 
     @Column(name = "img", columnDefinition = "text")
     private String img;
@@ -67,4 +69,12 @@ public class Party {
 
     @Column(name = "deleted_at",columnDefinition = "date")
     private LocalDate deletedAt;
+
+    public void plusCurrentCount() {
+        this.currentCount += 1L;
+    }
+
+    public void minusCurrentCount() {
+        this .currentCount -= 1L;
+    }
 }

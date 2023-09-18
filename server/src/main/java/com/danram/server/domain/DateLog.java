@@ -1,6 +1,7 @@
 package com.danram.server.domain;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -22,10 +23,10 @@ public class DateLog {
     @Column(name = "member_id", columnDefinition = "bigint")
     private Long memberId;
 
-    @Column(name = "description",columnDefinition = "varchar",length = 32)
+    @Column(name = "description",columnDefinition = "varchar",length = 100)
     private String description;
 
-    @Column(name = "created_at", columnDefinition = "date")
+    @CreationTimestamp
     private LocalDate createdAt;
 
     public static DateLog of(Long id) {

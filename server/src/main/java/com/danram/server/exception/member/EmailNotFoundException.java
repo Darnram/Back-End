@@ -1,4 +1,4 @@
-package com.danram.server.exception.user;
+package com.danram.server.exception.member;
 
 import com.danram.server.exception.ErrorCode;
 import lombok.Getter;

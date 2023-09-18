@@ -1,22 +1,18 @@
-package com.danram.server.dto.response.login;
+package com.danram.server.dto.response.token;
 
 import com.danram.server.domain.Token;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
 import java.time.LocalDate;
 
 @Getter
-@Builder
+@Setter
 public class TokenResponseDto {
     private String accessToken;
     private String refreshToken;
-    private Long id;
+    private Long memberId;
     private LocalDate accessTokenExpiredAt;
     private LocalDate refreshTokenExpiredAt;
-
-    public static TokenResponseDto of(Token token, ModelMapper mapper) {
-        return mapper.map(token, TokenResponseDto.class);
-    }
 }

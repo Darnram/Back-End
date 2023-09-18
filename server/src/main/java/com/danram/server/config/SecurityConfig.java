@@ -73,6 +73,8 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .addFilterAfter(new JwtCustomFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
+                .antMatchers("/party/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/token/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .anyRequest().denyAll()
                 .and().build();
     }

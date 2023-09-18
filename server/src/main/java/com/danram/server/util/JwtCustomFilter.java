@@ -62,10 +62,10 @@ public class JwtCustomFilter extends OncePerRequestFilter {
 
         String role;
 
-        if(JwtUtil.getRoles().equals("ROLE_ADMIN")) {
+        if(JwtUtil.getRoles().contains("ROLE_ADMIN")) {
             role = "ROLE_ADMIN";
         }
-        else if(JwtUtil.getRoles().equals("ROLE_USER")) {
+        else if(JwtUtil.getRoles().contains("ROLE_USER")) {
             role = "ROLE_USER";
         }
         else {
