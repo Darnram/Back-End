@@ -25,7 +25,6 @@ public interface PartyMemberRepository extends JpaRepository<PartyMember,Long> {
             "pm.deletedAt is null")
     Optional<PartyMember> findByMemberIdAndParty(@Param("memberId") Long memberId,@Param("party") Party party);
 
+    @Query("select pm from PartyMember pm where pm.party = :party and pm.deletedAt is null")
     List<PartyMember> findByParty(Party party);
-
-    Optional<PartyMember> findByPartyAndMember(Party party, Member member);
 }

@@ -3,6 +3,7 @@ package com.danram.server.service.party;
 import com.danram.server.dto.request.party.AddPartyRequestDto;
 import com.danram.server.dto.request.party.PartyEditRequestDto;
 import com.danram.server.dto.request.party.PartyJoinRequestDto;
+import com.danram.server.dto.request.party.PartyKickRequestDto;
 import com.danram.server.dto.response.party.*;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -22,6 +23,8 @@ public interface PartyService {
     PartyJoinResponseDto joinParty(PartyJoinRequestDto dto);
 
     PartyEditResponseDto editParty(PartyEditRequestDto dto,String imgUrl);
+
+    Boolean kickMember(PartyKickRequestDto dto);
 
     Boolean deleteParty(Long partyId);
 

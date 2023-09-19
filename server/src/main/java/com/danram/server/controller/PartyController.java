@@ -3,6 +3,7 @@ package com.danram.server.controller;
 import com.danram.server.dto.request.party.AddPartyRequestDto;
 import com.danram.server.dto.request.party.PartyEditRequestDto;
 import com.danram.server.dto.request.party.PartyJoinRequestDto;
+import com.danram.server.dto.request.party.PartyKickRequestDto;
 import com.danram.server.dto.response.party.*;
 import com.danram.server.repository.PartyRepository;
 import com.danram.server.service.party.PartyService;
@@ -140,5 +141,14 @@ public class PartyController {
         }
 
         return ResponseEntity.ok(partyService.editParty(dto,imgUrl));
+    }
+
+    @ApiOperation("유저 강퇴")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "유저 강퇴 성공")
+    })
+    @PostMapping("/kick")
+    public ResponseEntity<Boolean> kickMember(@RequestBody PartyKickRequestDto dto) {
+        return ResponseEntity.ok(partyService.kickMember(dto));
     }
 }

@@ -7,6 +7,7 @@ import com.danram.server.domain.PartyMember;
 import com.danram.server.dto.request.party.AddPartyRequestDto;
 import com.danram.server.dto.request.party.PartyEditRequestDto;
 import com.danram.server.dto.request.party.PartyJoinRequestDto;
+import com.danram.server.dto.request.party.PartyKickRequestDto;
 import com.danram.server.dto.response.party.*;
 import com.danram.server.exception.party.*;
 import com.danram.server.exception.member.MemberIdNotFoundException;
@@ -161,10 +162,10 @@ public class PartyServiceImpl implements PartyService {
                 .build();
 
         PartyMember partyMember;
-        Optional<PartyMember> checkMember = partyMemberRepository.findByPartyAndMember(party,member);
+        Optional<PartyMember> checkMember = partyMemberRepository.findByMemberIdAndParty(memberId,party);
         
         if (checkMember.isPresent() && checkMember.get().getDeletedAt() == null) { // 중복 가입 예외
-            throw new PartyMemberDuplicatedException(member.getMemberId().toString());
+            throw new PartyMemberDuplicatedException(memberId.toString());
         } else if (checkMember.isPresent() && checkMember.get().getDeletedAt() != null) { // 가입한 적 있음. 탈퇴 후 3일 경과 여부 체크
             Period period = Period.between(checkMember.get().getDeletedAt(),LocalDate.now());
             
@@ -248,6 +249,27 @@ public class PartyServiceImpl implements PartyService {
         partyRepository.save(party);
 
         return modelMapper.map(party, PartyEditResponseDto.class);
+    }
+
+    @Override
+    @Transactional
+    public Boolean kickMember(PartyKickRequestDto dto) {
+        Long memberId = JwtUtil.getMemberId();
+
+        Party party = partyRepository.findById(dto.getPartyId())
+                .orElseThrow(() -> new PartyNotFoundException(dto.getPartyId().toString()));
+
+        if (!party.getManagerId().equals(memberId)) {
+            throw new NotPartyManagerException(memberId.toString());
+        }
+
+        PartyMember partyMember = partyMemberRepository.findByMemberIdAndParty(memberId,party)
+                .orElseThrow(() -> new PartyMemberNotFoundException(memberId.toString()));
+
+        partyMember.setDeletedAt(LocalDate.now());
+        party.minusCurrentCount();
+
+        return true;
     }
 
     private Pageable getPageable(Long sortType, Integer pages) {
