@@ -1,8 +1,12 @@
 package com.danram.server.domain;
 
+import com.danram.server.dto.request.feed.FeedEditRequestDto;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
@@ -17,14 +21,17 @@ public class Feed {
     @Column(name = "feed_id", columnDefinition = "int")
     private Long feedId;
 
-    @Column(name = "party_id",columnDefinition = "int")
-    private Long partyId;
+    @JoinColumn(name = "party_id")
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Party party;
 
-    @Column(name = "member_id", columnDefinition = "bigint")
-    private Long memberId;
+    @JoinColumn(name = "member_id")
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Member member;
 
-    @Column(name = "log_id", columnDefinition = "int")
-    private Long logId;
+    @JoinColumn(name = "log_id")
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private DateLog dateLog;
 
     @Column(name = "img", columnDefinition = "text")
     private String img;
@@ -37,4 +44,37 @@ public class Feed {
 
     @Column(name = "comment_count",columnDefinition = "int")
     private Long commentCount;
+
+    @CreationTimestamp
+    private LocalDate createdAt;
+
+    @UpdateTimestamp
+    private LocalDate updatedAt;
+
+    @Column(name = "deleted_at",columnDefinition = "date")
+    private LocalDate deletedAt;
+
+    public void plusLikeCount() {
+        this.likeCount += 1;
+    }
+
+    public void minusLikeCount() {
+        this.likeCount -= 1;
+    }
+
+    public void plusCommentCount() {
+        this.commentCount += 1;
+    }
+
+    public void minusCommentCount() {
+        this.commentCount -= 1;
+    }
+
+    public void updateFeed(FeedEditRequestDto dto,String imgUrl) {
+        if (imgUrl != null) {
+            this.img = imgUrl;
+        }
+
+        this.content = dto.getContent();
+    }
 }

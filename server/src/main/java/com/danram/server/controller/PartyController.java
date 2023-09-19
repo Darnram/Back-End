@@ -4,6 +4,7 @@ import com.danram.server.dto.request.party.AddPartyRequestDto;
 import com.danram.server.dto.request.party.PartyEditRequestDto;
 import com.danram.server.dto.request.party.PartyJoinRequestDto;
 import com.danram.server.dto.request.party.PartyKickRequestDto;
+import com.danram.server.dto.response.feed.FeedResponseDto;
 import com.danram.server.dto.response.party.*;
 import com.danram.server.repository.PartyRepository;
 import com.danram.server.service.party.PartyService;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Slf4j
+@CrossOrigin
 @RestController
 @RequestMapping("/party")
 @RequiredArgsConstructor
@@ -150,5 +152,14 @@ public class PartyController {
     @PostMapping("/kick")
     public ResponseEntity<Boolean> kickMember(@RequestBody PartyKickRequestDto dto) {
         return ResponseEntity.ok(partyService.kickMember(dto));
+    }
+
+    @ApiOperation("피드 관련 정보 조회")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "피드 관련 정보 조회 성공")
+    })
+    @GetMapping("/feed")
+    public ResponseEntity<PartyFeedResponseDto> getPartyFeed(@RequestParam Long partyId) {
+        return ResponseEntity.ok(partyService.findPartyFeed(partyId));
     }
 }

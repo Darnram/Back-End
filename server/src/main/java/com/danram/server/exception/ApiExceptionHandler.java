@@ -1,5 +1,7 @@
 package com.danram.server.exception;
 
+import com.danram.server.exception.feed.FeedNotFoundException;
+import com.danram.server.exception.memberlike.MemberLikeNotFoundException;
 import com.danram.server.exception.party.*;
 import com.danram.server.exception.token.TokenNotFoundException;
 import com.danram.server.exception.member.MemberIdNotFoundException;
@@ -69,5 +71,17 @@ public class ApiExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleException(NotPartyManagerException ex) {
         ApiErrorResponse response = new ApiErrorResponse("ERROR-0010","member id : "+ex.getMessage()+" not manager");
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FeedNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleException(FeedNotFoundException ex) {
+        ApiErrorResponse response = new ApiErrorResponse("ERROR-0011","feed not found id : "+ex.getMessage());
+        return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MemberLikeNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleException(MemberLikeNotFoundException ex) {
+        ApiErrorResponse response = new ApiErrorResponse("ERROR-0012",ex.getMessage());
+        return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
     }
 }

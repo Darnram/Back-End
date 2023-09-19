@@ -20,6 +20,8 @@ public interface PartyService {
 
     List<PartyMemberResponseDto> findPartyMember(Long partyId);
 
+    PartyFeedResponseDto findPartyFeed(Long partyId);
+
     PartyJoinResponseDto joinParty(PartyJoinRequestDto dto);
 
     PartyEditResponseDto editParty(PartyEditRequestDto dto,String imgUrl);

@@ -75,6 +75,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/party/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers("/token/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/feed/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/feed-like/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .anyRequest().denyAll()
                 .and().build();
     }

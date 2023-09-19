@@ -146,6 +146,15 @@ public class PartyServiceImpl implements PartyService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public PartyFeedResponseDto findPartyFeed(Long partyId) {
+        Party party = partyRepository.findById(partyId)
+                .orElseThrow(() -> new PartyNotFoundException(partyId.toString()));
+
+        return modelMapper.map(party, PartyFeedResponseDto.class);
+    }
+
+    @Override
     @Transactional
     public PartyJoinResponseDto joinParty(PartyJoinRequestDto dto) {
         Long memberId = JwtUtil.getMemberId();
