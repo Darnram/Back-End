@@ -1,11 +1,9 @@
 package com.danram.server.controller;
 
 import com.danram.server.dto.request.party.AddPartyRequestDto;
+import com.danram.server.dto.request.party.PartyEditRequestDto;
 import com.danram.server.dto.request.party.PartyJoinRequestDto;
-import com.danram.server.dto.response.party.AddPartyResponseDto;
-import com.danram.server.dto.response.party.PartyJoinResponseDto;
-import com.danram.server.dto.response.party.PartyMemberResponseDto;
-import com.danram.server.dto.response.party.PartyResponseDto;
+import com.danram.server.dto.response.party.*;
 import com.danram.server.repository.PartyRepository;
 import com.danram.server.service.party.PartyService;
 import com.danram.server.service.s3.S3UploadService;
@@ -27,8 +25,6 @@ import java.util.List;
 @RequestMapping("/party")
 @RequiredArgsConstructor
 public class PartyController {
-    private final PartyRepository partyRepository;
-
     private final S3UploadService s3UploadService;
     private final PartyService partyService;
 
@@ -129,5 +125,20 @@ public class PartyController {
     @PostMapping("/exit")
     public ResponseEntity<Boolean> exitParty(@RequestParam Long partyId) {
         return ResponseEntity.ok(partyService.exitParty(partyId));
+    }
+
+    @ApiOperation("모임 수정")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "모임 수정 성공")
+    })
+    @PostMapping("/edit")
+    public ResponseEntity<PartyEditResponseDto> editParty(@ModelAttribute PartyEditRequestDto dto) throws IOException {
+        String imgUrl = null;
+
+        if (dto.getImg() != null) {
+            imgUrl = s3UploadService.upload(dto.getImg(),"party_image");
+        }
+
+        return ResponseEntity.ok(partyService.editParty(dto,imgUrl));
     }
 }

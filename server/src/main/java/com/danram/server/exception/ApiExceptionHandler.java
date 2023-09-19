@@ -64,4 +64,10 @@ public class ApiExceptionHandler {
         ApiErrorResponse response = new ApiErrorResponse("ERROR-0009",ex.getMessage());
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(NotPartyManagerException.class)
+    public ResponseEntity<ApiErrorResponse> handleException(NotPartyManagerException ex) {
+        ApiErrorResponse response = new ApiErrorResponse("ERROR-0010","member id : "+ex.getMessage()+" not manager");
+        return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+    }
 }

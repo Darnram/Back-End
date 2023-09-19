@@ -5,11 +5,9 @@ import com.danram.server.domain.Member;
 import com.danram.server.domain.Party;
 import com.danram.server.domain.PartyMember;
 import com.danram.server.dto.request.party.AddPartyRequestDto;
+import com.danram.server.dto.request.party.PartyEditRequestDto;
 import com.danram.server.dto.request.party.PartyJoinRequestDto;
-import com.danram.server.dto.response.party.AddPartyResponseDto;
-import com.danram.server.dto.response.party.PartyJoinResponseDto;
-import com.danram.server.dto.response.party.PartyMemberResponseDto;
-import com.danram.server.dto.response.party.PartyResponseDto;
+import com.danram.server.dto.response.party.*;
 import com.danram.server.exception.party.*;
 import com.danram.server.exception.member.MemberIdNotFoundException;
 import com.danram.server.repository.MemberRepository;
@@ -58,7 +56,7 @@ public class PartyServiceImpl implements PartyService {
                 .build();
 
         Party party = modelMapper.map(dto,Party.class);
-        party.setMemberId(memberId);
+        party.setManagerId(memberId);
         party.setDateLog(dateLog);
         party.setImg(imgUrl);
         party.setStartedAt(dto.getStatedAt());
@@ -199,7 +197,7 @@ public class PartyServiceImpl implements PartyService {
         Party party = partyRepository.findById(partyId)
                 .orElseThrow(() -> new PartyNotFoundException(partyId.toString()));
 
-        if (!party.getMemberId().equals(memberId)) {
+        if (!party.getManagerId().equals(memberId)) {
             throw new InvalidHostException(memberId.toString());
         }
         party.setDeletedAt(LocalDate.now());
@@ -224,7 +222,7 @@ public class PartyServiceImpl implements PartyService {
         PartyMember partyMember = partyMemberRepository.findByMemberIdAndParty(memberId,party)
                 .orElseThrow(() -> new PartyNotFoundException(partyId.toString()));
 
-        if (party.getMemberId().equals(memberId)) {
+        if (party.getManagerId().equals(memberId)) {
             throw new PartyHostExitException(memberId.toString());
         }
 
@@ -232,6 +230,24 @@ public class PartyServiceImpl implements PartyService {
         party.minusCurrentCount();
 
         return true;
+    }
+
+    @Override
+    @Transactional
+    public PartyEditResponseDto editParty(PartyEditRequestDto dto,String imgUrl) {
+        Long memberId = JwtUtil.getMemberId();
+
+        Party party = partyRepository.findById(dto.getPartyId())
+                .orElseThrow(() -> new PartyNotFoundException(dto.getPartyId().toString()));
+
+        if (!party.getManagerId().equals(memberId)) {
+            throw new NotPartyManagerException(memberId.toString());
+        }
+
+        party.updateParty(dto,imgUrl);
+        partyRepository.save(party);
+
+        return modelMapper.map(party, PartyEditResponseDto.class);
     }
 
     private Pageable getPageable(Long sortType, Integer pages) {

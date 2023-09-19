@@ -1,5 +1,6 @@
 package com.danram.server.domain;
 
+import com.danram.server.dto.request.party.PartyEditRequestDto;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,9 +21,8 @@ public class Party {
     @Column(name = "party_id", columnDefinition = "bigint")
     private Long partyId;
 
-    @JoinColumn(name = "member_id")
-    @Column(name = "member_id", columnDefinition = "bigint")
-    private Long memberId;
+    @Column(name = "manager_id", columnDefinition = "bigint")
+    private Long managerId;
 
     @JoinColumn(name = "log_id")
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
@@ -76,5 +76,18 @@ public class Party {
 
     public void minusCurrentCount() {
         this .currentCount -= 1L;
+    }
+
+    public void updateParty(PartyEditRequestDto dto,String imgUrl) {
+        if (imgUrl!=null) {
+            this.img = imgUrl;
+        }
+
+        this.title = dto.getTitle();
+        this.description = dto.getDescription();
+        this.password = dto.getPassword();
+        this.max = dto.getMax();
+        this.location = dto.getLocation();
+        this.managerId = dto.getManagerId();
     }
 }
