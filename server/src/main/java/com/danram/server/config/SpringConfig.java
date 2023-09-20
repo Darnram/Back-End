@@ -4,6 +4,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.danram.server.repository.*;
 import com.danram.server.service.comment.CommentService;
 import com.danram.server.service.comment.CommentServiceImpl;
+import com.danram.server.service.commentlike.CommentLikeService;
+import com.danram.server.service.commentlike.CommentLikeServiceImpl;
 import com.danram.server.service.feed.FeedService;
 import com.danram.server.service.feed.FeedServiceImpl;
 import com.danram.server.service.feedlike.FeedLikeService;
@@ -65,5 +67,10 @@ public class SpringConfig {
     @Bean
     public CommentService commentService() {
         return new CommentServiceImpl(commentRepository,memberRepository,feedRepository,memberLikeRepository);
+    }
+
+    @Bean
+    public CommentLikeService commentLikeService() {
+        return new CommentLikeServiceImpl(commentRepository,memberLikeRepository,memberRepository);
     }
 }

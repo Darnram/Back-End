@@ -1,7 +1,6 @@
 package com.danram.server.service.feedlike;
 
 import com.danram.server.domain.*;
-import com.danram.server.domain.embeddable.LikePk;
 import com.danram.server.dto.request.feedlike.FeedLikeAddRequestDto;
 import com.danram.server.exception.feed.FeedNotFoundException;
 import com.danram.server.exception.member.MemberIdNotFoundException;
@@ -35,9 +34,6 @@ public class FeedLikeServiceImpl implements FeedLikeService {
     public Boolean addLike(FeedLikeAddRequestDto dto) {
         Long memberId = JwtUtil.getMemberId();
 
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberIdNotFoundException(memberId.toString()));
-
         Feed feed = feedRepository.findById(dto.getFeedId())
                 .orElseThrow(() -> new FeedNotFoundException(dto.getFeedId().toString()));
 
@@ -46,18 +42,16 @@ public class FeedLikeServiceImpl implements FeedLikeService {
         if (memberLike.isPresent()) { // 삭제된 상태의 좋아요가 있을때
             memberLike.get().setDeletedAt(null);
         } else { // 좋아요 새로 추가
+            Member member = memberRepository.findById(memberId)
+                    .orElseThrow(() -> new MemberIdNotFoundException(memberId.toString()));
+
             DateLog dateLog = DateLog.builder()
                     .memberId(memberId)
                     .description(String.format("member id %d가 피드에 좋아요를 추가함.",memberId))
                     .build();
 
-            LikePk likePk = LikePk.builder()
-                    .likeId(System.currentTimeMillis())
-                    .type(0L)
-                    .build();
-
             MemberLike like = MemberLike.builder()
-                    .likePk(likePk)
+                    .type(0L)
                     .id(dto.getFeedId())
                     .member(member)
                     .dateLog(dateLog)
@@ -75,7 +69,7 @@ public class FeedLikeServiceImpl implements FeedLikeService {
     public Boolean removeLike(FeedLikeAddRequestDto dto) {
         Long memberId = JwtUtil.getMemberId();
 
-        Feed feed = feedRepository.findById(dto.getFeedId())
+        Feed feed = feedRepository.findByMemberId(dto.getFeedId(),memberId)
                 .orElseThrow(() -> new FeedNotFoundException(dto.getFeedId().toString()));
 
         MemberLike memberLike = memberLikeRepository.findActiveMemberLike(memberId,dto.getFeedId(),0L)

@@ -20,51 +20,51 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/feed-comment")
-public class FeedCommentController {
+@RequestMapping("/comment")
+public class CommentController {
     private final CommentService commentService;
 
-    @ApiOperation("피드 부모 댓글 조회")
+    @ApiOperation("부모 댓글 조회")
     @ApiResponses({
-            @ApiResponse(responseCode = "200",description = "피드 부모 댓글 조회 성공")
+            @ApiResponse(responseCode = "200",description = "부모 댓글 조회 성공")
     })
     @GetMapping("/parent")
-    public ResponseEntity<List<FeedCommentResponseDto>> getParent(@RequestParam Integer pages, @RequestParam Long feedId) {
-        return ResponseEntity.ok(commentService.findFeedParentComment(pages, feedId));
+    public ResponseEntity<List<FeedCommentResponseDto>> getParent(@RequestParam Integer pages,@RequestParam Long id) {
+        return ResponseEntity.ok(commentService.findParentComment(pages,id));
     }
     
-    @ApiOperation("피드 자식 댓글 조회")
+    @ApiOperation("자식 댓글 조회")
     @ApiResponses({
-            @ApiResponse(responseCode = "200",description = "피드 자식 댓글 조회 성공")
+            @ApiResponse(responseCode = "200",description = "자식 댓글 조회 성공")
     })
     @GetMapping("/child")
     public ResponseEntity<List<FeedCommentResponseDto>> getChild(@RequestParam Integer pages, @RequestParam Long commentId) {
-        return ResponseEntity.ok(commentService.findFeedChildComment(pages, commentId));
+        return ResponseEntity.ok(commentService.findChildComment(pages, commentId));
     }
 
     @ApiOperation("피드 댓글 추가")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "피드 댓글 추가 성공")
     })
-    @PostMapping
-    public ResponseEntity<CommentAddResponseDto> addComment(@RequestBody CommentAddRequestDto dto) {
+    @PostMapping("/feed")
+    public ResponseEntity<CommentAddResponseDto> addFeedComment(@RequestBody CommentAddRequestDto dto) {
         return ResponseEntity.ok(commentService.addFeedComment(dto));
     }
 
-    @ApiOperation("피드 댓글 수정")
+    @ApiOperation("댓글 수정")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "피드 댓글 수정 성공")
     })
     @PostMapping("/edit")
     public ResponseEntity<CommentEditResponseDto> editComment(@RequestBody CommentEditRequestDto dto) {
-        return ResponseEntity.ok(commentService.editFeedComment(dto));
+        return ResponseEntity.ok(commentService.editComment(dto));
     }
 
     @ApiOperation("피드 댓글 삭제")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "피드 댓글 삭제")
     })
-    @DeleteMapping
+    @DeleteMapping("/feed/delete")
     public ResponseEntity<Boolean> deleteComment(@RequestParam Long commentId,@RequestParam Long feedId) {
         return ResponseEntity.ok(commentService.deleteFeedComment(commentId,feedId));
     }

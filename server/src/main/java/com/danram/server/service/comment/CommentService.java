@@ -11,10 +11,10 @@ import java.util.List;
 public interface CommentService {
     CommentAddResponseDto addFeedComment(CommentAddRequestDto dto);
 
-    List<FeedCommentResponseDto> findFeedParentComment(Integer pages, Long feedId);
-    List<FeedCommentResponseDto> findFeedChildComment(Integer pages, Long commentId);
+    List<FeedCommentResponseDto> findParentComment(Integer pages, Long id);
+    List<FeedCommentResponseDto> findChildComment(Integer pages, Long commentId);
 
-    CommentEditResponseDto editFeedComment(CommentEditRequestDto dto);
+    CommentEditResponseDto editComment(CommentEditRequestDto dto);
 
     Boolean deleteFeedComment(Long commentId,Long feedId);
 }

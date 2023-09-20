@@ -77,7 +77,8 @@ public class SecurityConfig {
                 .antMatchers("/token/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers("/feed/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers("/feed-like/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
-                .antMatchers("/feed-comment/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/comment-like/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/comment/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .anyRequest().denyAll()
                 .and().build();
     }

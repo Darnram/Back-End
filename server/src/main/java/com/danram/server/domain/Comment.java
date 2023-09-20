@@ -1,6 +1,5 @@
 package com.danram.server.domain;
 
-import com.danram.server.domain.embeddable.CommentPk;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,8 +15,10 @@ import java.time.LocalDate;
 @Setter
 @Table(name = "comment")
 public class Comment {
-    @EmbeddedId
-    private CommentPk commentPk;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id" ,nullable = false,columnDefinition = "bigint")
+    private Long commentId;
 
     @JoinColumn(name = "member_id")
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
@@ -50,4 +51,20 @@ public class Comment {
 
     @Column(name = "deleted_at",columnDefinition = "date")
     private LocalDate deletedAt;
+
+    public void plusLikeCount() {
+        this.likeCount += 1;
+    }
+
+    public void minusLikeCount() {
+        this.likeCount -= 1;
+    }
+
+    public void plusCommentCount() {
+        this.commentCount += 1;
+    }
+
+    public void minusCommentCount() {
+        this.commentCount -= 1;
+    }
 }
