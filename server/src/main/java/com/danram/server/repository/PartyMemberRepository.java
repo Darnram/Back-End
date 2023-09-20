@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public interface PartyMemberRepository extends JpaRepository<PartyMember,Long> {
 
     @Query("select pm from PartyMember pm where pm.member.memberId = :memberId and " +

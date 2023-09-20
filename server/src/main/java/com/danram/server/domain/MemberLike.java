@@ -1,6 +1,6 @@
 package com.danram.server.domain;
 
-import com.danram.server.domain.embeddable.LikeId;
+import com.danram.server.domain.embeddable.LikePk;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Table(name = "member_like")
 public class MemberLike {
     @EmbeddedId
-    private LikeId likeId;
+    private LikePk likePk;
 
     @JoinColumn(name = "member_id")
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
@@ -25,6 +25,9 @@ public class MemberLike {
     @JoinColumn(name = "log_id")
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private DateLog dateLog;
+
+    @Column(name = "id",nullable = false,columnDefinition = "bigint")
+    private Long id;
 
     @CreationTimestamp
     private LocalDate createdAt;

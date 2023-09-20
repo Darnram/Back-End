@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
 public interface FeedRepository extends JpaRepository<Feed,Long> {
     @Query("select f from Feed f where f.party.partyId = :partyId and" +
             " f.deletedAt is null")

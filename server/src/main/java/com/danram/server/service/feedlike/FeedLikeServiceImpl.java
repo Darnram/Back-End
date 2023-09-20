@@ -1,7 +1,7 @@
 package com.danram.server.service.feedlike;
 
 import com.danram.server.domain.*;
-import com.danram.server.domain.embeddable.LikeId;
+import com.danram.server.domain.embeddable.LikePk;
 import com.danram.server.dto.request.feedlike.FeedLikeAddRequestDto;
 import com.danram.server.exception.feed.FeedNotFoundException;
 import com.danram.server.exception.member.MemberIdNotFoundException;
@@ -15,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Optional;
-
-import static com.danram.server.config.MapperConfig.modelMapper;
 
 @Slf4j
 public class FeedLikeServiceImpl implements FeedLikeService {
@@ -53,14 +51,14 @@ public class FeedLikeServiceImpl implements FeedLikeService {
                     .description(String.format("member id %d가 피드에 좋아요를 추가함.",memberId))
                     .build();
 
-            LikeId likeId = LikeId.builder()
+            LikePk likePk = LikePk.builder()
                     .likeId(System.currentTimeMillis())
                     .type(0L)
-                    .id(dto.getFeedId())
                     .build();
 
             MemberLike like = MemberLike.builder()
-                    .likeId(likeId)
+                    .likePk(likePk)
+                    .id(dto.getFeedId())
                     .member(member)
                     .dateLog(dateLog)
                     .build();

@@ -9,8 +9,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 @Embeddable
-public class LikeId implements Serializable {
+public class LikePk implements Serializable {
     private Long likeId;
     private Long type;
-    private Long id;
 }

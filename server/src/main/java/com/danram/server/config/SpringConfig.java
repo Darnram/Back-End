@@ -2,6 +2,8 @@ package com.danram.server.config;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.danram.server.repository.*;
+import com.danram.server.service.comment.CommentService;
+import com.danram.server.service.comment.CommentServiceImpl;
 import com.danram.server.service.feed.FeedService;
 import com.danram.server.service.feed.FeedServiceImpl;
 import com.danram.server.service.feedlike.FeedLikeService;
@@ -28,6 +30,7 @@ public class SpringConfig {
     private final PartyMemberRepository partyMemberRepository;
     private final FeedRepository feedRepository;
     private final MemberLikeRepository memberLikeRepository;
+    private final CommentRepository commentRepository;
 
     @Bean
     public MemberService memberService() {
@@ -57,5 +60,10 @@ public class SpringConfig {
     @Bean
     public FeedLikeService feedLikeService() {
         return new FeedLikeServiceImpl(feedRepository, memberLikeRepository,memberRepository);
+    }
+
+    @Bean
+    public CommentService commentService() {
+        return new CommentServiceImpl(commentRepository,memberRepository,feedRepository,memberLikeRepository);
     }
 }

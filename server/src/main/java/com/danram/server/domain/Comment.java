@@ -1,8 +1,12 @@
 package com.danram.server.domain;
 
+import com.danram.server.domain.embeddable.CommentPk;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
@@ -12,23 +16,38 @@ import javax.persistence.*;
 @Setter
 @Table(name = "comment")
 public class Comment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id", columnDefinition = "int")
-    private Long commentId;
+    @EmbeddedId
+    private CommentPk commentPk;
 
-    @Column(name = "member_id", columnDefinition = "bigint")
-    private Long memberId;
+    @JoinColumn(name = "member_id")
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Member member;
 
-    @Column(name = "log_id", columnDefinition = "int")
-    private Long logId;
+    @JoinColumn(name = "log_id")
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private DateLog dateLog;
 
     @Column(name = "content", length = 60, columnDefinition = "varchar")
     private String content;
 
-    @Column(name = "parent_content", columnDefinition = "int")
-    private Long parentContent;
+    @Column(name = "id",columnDefinition = "bigint",nullable = false)
+    private Long id;
 
-    @Column(name = "heart", columnDefinition = "int")
-    private Long heart;
+    @Column(name = "parent_id", columnDefinition = "int")
+    private Long parentId;
+
+    @Column(name = "like_count", columnDefinition = "int")
+    private Long likeCount;
+
+    @Column(name = "comment_count",columnDefinition = "int")
+    private Long commentCount;
+
+    @CreationTimestamp
+    private LocalDate createdAt;
+
+    @UpdateTimestamp
+    private LocalDate updatedAt;
+
+    @Column(name = "deleted_at",columnDefinition = "date")
+    private LocalDate deletedAt;
 }

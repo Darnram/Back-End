@@ -1,5 +1,6 @@
 package com.danram.server.exception;
 
+import com.danram.server.exception.comment.CommentNotFoundException;
 import com.danram.server.exception.feed.FeedNotFoundException;
 import com.danram.server.exception.memberlike.MemberLikeNotFoundException;
 import com.danram.server.exception.party.*;
@@ -82,6 +83,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(MemberLikeNotFoundException.class)
     public ResponseEntity<ApiErrorResponse> handleException(MemberLikeNotFoundException ex) {
         ApiErrorResponse response = new ApiErrorResponse("ERROR-0012",ex.getMessage());
+        return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CommentNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleException(CommentNotFoundException ex) {
+        ApiErrorResponse response = new ApiErrorResponse("ERROR-0013","comment not found id : "+ex.getMessage());
         return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
     }
 }

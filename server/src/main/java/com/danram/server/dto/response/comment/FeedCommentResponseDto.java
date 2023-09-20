@@ -1,30 +1,29 @@
-package com.danram.server.dto.response.feed;
+package com.danram.server.dto.response.comment;
 
 import com.danram.server.domain.Member;
-import com.danram.server.domain.MemberLike;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Getter
 @Setter
-public class FeedResponseDto {
+public class FeedCommentResponseDto {
     private Long feedId;
-    private String memberImg;
-    private String nickname;
+    private Long commentId;
     private String img;
+    private String nickname;
     private String content;
     private Long likeCount;
     private Long commentCount;
-    private LocalDate createdAt;
+    private Boolean isMyComment;
     private Boolean isLiked;
-    private Boolean isMyFeed;
     private Boolean hasNextSlice;
+    private LocalDate createdAt;
 
     public void setMemberInfo(Member member) {
-        this.memberImg = member.getImg();
+        this.img = member.getImg();
         this.nickname = member.getNickname();
     }
 }

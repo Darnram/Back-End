@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-@Repository
 public interface PartyRepository extends JpaRepository<Party, Long> {
 
     @Query("select p from Party p where p.deletedAt is null")

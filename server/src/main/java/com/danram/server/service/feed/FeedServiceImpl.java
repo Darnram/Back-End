@@ -61,8 +61,8 @@ public class FeedServiceImpl implements FeedService {
 
             Optional<MemberLike> memberLike = memberLikeRepository.findActiveMemberLike(memberId,feed.getFeedId(),0L);
             responseDto.setIsLiked(memberLike.isPresent());
-
             responseDto.setMemberInfo(feed.getMember());
+            responseDto.setIsMyFeed(feed.getMember().getMemberId().equals(memberId));
             responseDto.setHasNextSlice(feedList.hasNext());
             responseDtoList.add(responseDto);
         }
@@ -94,9 +94,7 @@ public class FeedServiceImpl implements FeedService {
         feed.setCommentCount(0L);
         feed.setLikeCount(0L);
 
-        feedRepository.save(feed);
-
-        return modelMapper.map(feed, FeedAddResponseDto.class);
+        return modelMapper.map(feedRepository.save(feed), FeedAddResponseDto.class);
     }
 
     @Override
@@ -108,9 +106,7 @@ public class FeedServiceImpl implements FeedService {
                 .orElseThrow(() -> new FeedNotFoundException(dto.getFeedId().toString()));
         feed.updateFeed(dto,imgUrl);
 
-        feedRepository.save(feed);
-
-        return modelMapper.map(feed, FeedEditResponseDto.class);
+        return modelMapper.map(feedRepository.save(feed), FeedEditResponseDto.class);
     }
 
     @Override

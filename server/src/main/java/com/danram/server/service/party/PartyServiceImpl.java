@@ -22,7 +22,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -65,9 +64,7 @@ public class PartyServiceImpl implements PartyService {
         party.setViewCount(0L);
         party.setCurrentCount(1L);
 
-        partyRepository.save(party);
-
-        return modelMapper.map(party, AddPartyResponseDto.class);
+        return modelMapper.map(partyRepository.save(party), AddPartyResponseDto.class);
     }
 
     @Override
@@ -148,10 +145,15 @@ public class PartyServiceImpl implements PartyService {
     @Override
     @Transactional(readOnly = true)
     public PartyFeedResponseDto findPartyFeed(Long partyId) {
+        Long memberId = JwtUtil.getMemberId();
+
         Party party = partyRepository.findById(partyId)
                 .orElseThrow(() -> new PartyNotFoundException(partyId.toString()));
 
-        return modelMapper.map(party, PartyFeedResponseDto.class);
+        PartyFeedResponseDto responseDto = modelMapper.map(party, PartyFeedResponseDto.class);
+        responseDto.setIsManager(memberId.equals(party.getManagerId()));
+
+        return responseDto;
     }
 
     @Override
@@ -194,9 +196,7 @@ public class PartyServiceImpl implements PartyService {
 
         party.plusCurrentCount();
 
-        partyMemberRepository.save(partyMember);
-
-        return modelMapper.map(partyMember, PartyJoinResponseDto.class);
+        return modelMapper.map(partyMemberRepository.save(partyMember), PartyJoinResponseDto.class);
     }
 
     @Override
@@ -255,9 +255,8 @@ public class PartyServiceImpl implements PartyService {
         }
 
         party.updateParty(dto,imgUrl);
-        partyRepository.save(party);
 
-        return modelMapper.map(party, PartyEditResponseDto.class);
+        return modelMapper.map(partyRepository.save(party), PartyEditResponseDto.class);
     }
 
     @Override

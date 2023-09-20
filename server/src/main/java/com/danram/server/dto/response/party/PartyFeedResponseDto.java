@@ -12,6 +12,7 @@ public class PartyFeedResponseDto {
     private String title;
     private LocalDate startedAt;
     private LocalDate endAt;
+    private Boolean isManager;
 
     // 알람 시간
     // 알람 요일
