@@ -1,6 +1,7 @@
 package com.danram.server.controller;
 
 import com.danram.server.service.alarm.AlarmService;
+import com.danram.server.service.alarm.AlarmServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
