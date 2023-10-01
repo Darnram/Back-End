@@ -10,6 +10,8 @@ public interface AlarmService {
 
     public void deleteAlarm(Long alarmId);
 
+    public void deleteAlarmList(List<Long> alarmIds);
+
     public AlarmResponseDto getAlarm(Long alarmId);
 
     public List<AlarmResponseDto> getPartyAlarmList(Long partyId);

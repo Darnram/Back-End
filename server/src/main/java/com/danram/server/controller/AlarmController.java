@@ -1,6 +1,7 @@
 package com.danram.server.controller;
 
 import com.danram.server.dto.request.alarm.AddAlarmRequestDto;
+import com.danram.server.dto.response.alarm.AlarmResponseDto;
 import com.danram.server.service.alarm.AlarmService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -8,7 +9,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.websocket.server.PathParam;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/alarm")
@@ -25,8 +32,9 @@ public class AlarmController {
     @ApiResponses(
             @ApiResponse(responseCode = "200", description = "알람 추가 성공")
     )
-    public void addAlarm(@RequestBody AddAlarmRequestDto addAlarmRequestDto) {
-
+    public ResponseEntity<?> addAlarm(@RequestBody AddAlarmRequestDto addAlarmRequestDto) {
+        alarmService.addAlarm(addAlarmRequestDto);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(value = "/{alarmId}")
@@ -34,8 +42,9 @@ public class AlarmController {
     @ApiResponses(
             @ApiResponse(responseCode = "200", description = "알람 삭제 성공")
     )
-    public void deleteAlarm(@PathVariable(value = "alarmId") Long alarmId) {
-
+    public ResponseEntity<?> deleteAlarm(@PathVariable(value = "alarmId") Long alarmId) {
+        alarmService.deleteAlarm(alarmId);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(value = "")
@@ -43,8 +52,11 @@ public class AlarmController {
     @ApiResponses(
             @ApiResponse(responseCode = "200", description = "알람 삭제 성공")
     )
-    public void deleteAlarmList() {
-
+    public void deleteAlarmList(@PathParam(value = "alarmIds") String alarmIds) {
+        List<Long> alarmIdList = Arrays.stream(alarmIds.split(","))
+                .map(Long::parseLong)
+                .collect(Collectors.toList());
+        alarmService.deleteAlarmList(alarmIdList);
     }
 
     @GetMapping(value = "/{alarmId}")
@@ -52,8 +64,8 @@ public class AlarmController {
     @ApiResponses(
         @ApiResponse(responseCode = "200", description = "알람 가져오기 성공")
     )
-    public void getAlarm() {
-
+    public ResponseEntity<AlarmResponseDto> getAlarm(@PathVariable(value = "alarmId") Long alarmId) {
+        return ResponseEntity.ok(alarmService.getAlarm(alarmId));
     }
 
     @GetMapping(value = "/party/{partyId}")
@@ -61,7 +73,7 @@ public class AlarmController {
     @ApiResponses(
             @ApiResponse(responseCode = "200", description = "알람 가져오기 성공")
     )
-    public void getPartyAlarmList() {
-
+    public ResponseEntity<List<AlarmResponseDto>> getPartyAlarmList(@PathVariable(value = "partyId") Long partyId) {
+        return ResponseEntity.ok(alarmService.getPartyAlarmList(partyId));
     }
 }
