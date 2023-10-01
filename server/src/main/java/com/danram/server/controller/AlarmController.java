@@ -1,7 +1,7 @@
 package com.danram.server.controller;
 
+import com.danram.server.dto.request.alarm.AddAlarmRequestDto;
 import com.danram.server.service.alarm.AlarmService;
-import com.danram.server.service.alarm.AlarmServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,7 +25,7 @@ public class AlarmController {
     @ApiResponses(
             @ApiResponse(responseCode = "200", description = "알람 추가 성공")
     )
-    public void addAlarm() {
+    public void addAlarm(@RequestBody AddAlarmRequestDto addAlarmRequestDto) {
 
     }
 
@@ -34,7 +34,7 @@ public class AlarmController {
     @ApiResponses(
             @ApiResponse(responseCode = "200", description = "알람 삭제 성공")
     )
-    public void deleteAlarm() {
+    public void deleteAlarm(@PathVariable(value = "alarmId") Long alarmId) {
 
     }
 
