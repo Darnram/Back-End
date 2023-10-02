@@ -24,7 +24,7 @@ public class AlarmResponseDto {
                 alarmEntity.getAlarmId(),
                 alarmEntity.getAlarmTime(),
                 Arrays.stream(alarmEntity.getFrequency().split(""))
-                        .map(AlarmFrequencyEnum::valueOf)
+                        .map(AlarmFrequencyEnum::of)
                         .collect(Collectors.toList())
         );
     }
