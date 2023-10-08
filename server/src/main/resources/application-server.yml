@@ -27,3 +27,24 @@ logging:
   config: classpath:logback.xml
 jwt:
   secret: ${JWT_TOKEN_SECRET_KEY}
+
+sns:
+  kakao:
+    id: ${KAKAO_CLIENT_ID}
+    url: ${KAKAO_REDIRECT_URL}
+  naver:
+    id: ${NAVER_CLIENT_ID}
+    secret: ${NAVER_CLIENT_SECRET}
+    url: ${NAVER_REDIRECT_URL}
+
+cloud:
+  aws:
+    s3:
+      bucket: ${AWS_S3_BUCKET}
+    credentials:
+      accessKey: ${AWS_S3_ACCESS_KEY}
+      secretKey: ${AWS_S3_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

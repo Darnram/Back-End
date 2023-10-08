@@ -6,29 +6,31 @@ import com.danram.server.domain.Member;
 import com.danram.server.domain.Token;
 import com.danram.server.dto.response.login.LoginResponseDto;
 import com.danram.server.dto.response.login.OauthLoginResponseDto;
-import com.danram.server.exception.user.UserIdNotFoundException;
-import com.danram.server.repository.DateLogRepository;
+import com.danram.server.exception.member.MemberIdNotFoundException;
 import com.danram.server.repository.MemberRepository;
 import com.danram.server.repository.TokenRepository;
+import com.danram.server.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
+import org.springframework.transaction.annotation.Transactional;
+import static com.danram.server.config.MapperConfig.modelMapper;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
-    private final DateLogRepository dateLogRepository;
     private final TokenRepository tokenRepository;
-    private final ModelMapper modelMapper;
 
     @Override
+    @Transactional
     public Optional<Member> checkDuplicatedEmail(final String email) {
         return memberRepository.findByEmail(email);
     }
 
     @Override
+    @Transactional
     public LoginResponseDto signUp(final OauthLoginResponseDto oauthLoginResponseDto) {
         long id = System.currentTimeMillis();
 
@@ -41,12 +43,14 @@ public class MemberServiceImpl implements MemberService {
                 .authorityName("ROLE_ADMIN")
                 .build();
 
-        //날짜 로그
-        DateLog dateLog = DateLog.of(id);
+        DateLog dateLog = DateLog.builder()
+                .memberId(id)
+                .description(id + "유저가 회원가입을 진행함")
+                .build();
 
         Member user = Member.builder()
                 .memberId(id)
-                .logId(dateLogRepository.save(dateLog).getLogId())
+                .dateLog(dateLog)
                 .authorities(Arrays.asList(authority, authority1))
                 .email(oauthLoginResponseDto.getEmail())
                 .nickname(oauthLoginResponseDto.getNickname())
@@ -65,8 +69,17 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public LoginResponseDto signIn(final Member member) {
-        Token token = tokenRepository.findByMemberId(member.getMemberId()).orElseThrow(() -> new UserIdNotFoundException(member.getMemberId().toString()));
+        Token token = tokenRepository.findByMemberId(
+                member.getMemberId()).orElseThrow(
+                        () -> new MemberIdNotFoundException(member.getMemberId().toString())
+        );
+
+        token.setAccessToken(JwtUtil.createJwt(member.getMemberId()));
+        token.setAccessTokenExpiredAt(LocalDate.now().plusYears(1));
+        token.setRefreshToken(JwtUtil.createRefreshToken(member.getMemberId()));
+        token.setRefreshTokenExpiredAt(LocalDate.now().plusYears(1));
 
         return LoginResponseDto.of(member,token, modelMapper);
     }
