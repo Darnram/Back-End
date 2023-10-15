@@ -6,20 +6,27 @@ import com.danram.server.domain.Member;
 import com.danram.server.domain.Token;
 import com.danram.server.dto.response.login.LoginResponseDto;
 import com.danram.server.dto.response.login.OauthLoginResponseDto;
+import com.danram.server.dto.response.member.MemberInfoResponseDto;
+import com.danram.server.dto.response.member.MemberResponseDto;
 import com.danram.server.exception.member.MemberIdNotFoundException;
+import com.danram.server.exception.member.MemberLoginTypeNotExistException;
+import com.danram.server.exception.member.MemberNameNotFoundException;
 import com.danram.server.repository.MemberRepository;
 import com.danram.server.repository.TokenRepository;
 import com.danram.server.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import static com.danram.server.config.MapperConfig.modelMapper;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Slf4j
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final TokenRepository tokenRepository;
@@ -86,11 +93,62 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Authority> getAuthorities() {
         Member member = memberRepository.findById(JwtUtil.getMemberId()).orElseThrow(
                 () -> new MemberIdNotFoundException(JwtUtil.getMemberId().toString())
         );
 
         return member.getAuthorities();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public MemberResponseDto getInfo() {
+        Member member = memberRepository.findById(JwtUtil.getMemberId()).orElseThrow(
+                () -> new MemberIdNotFoundException(JwtUtil.getMemberId().toString())
+        );
+
+        return modelMapper.map(member, MemberResponseDto.class);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public MemberResponseDto findByNickname(String name) {
+        final Member member = memberRepository.findByNickname(name).orElseThrow(
+                () -> new MemberNameNotFoundException(name)
+        );
+
+        return modelMapper.map(member, MemberResponseDto.class);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<MemberInfoResponseDto> getAll() {
+        List<MemberInfoResponseDto> result = new ArrayList<>();
+
+        final List<Member> all = memberRepository.findAll();
+
+        for(Member member : all) {
+            MemberInfoResponseDto map = modelMapper.map(member, MemberInfoResponseDto.class);
+
+            if(member.getLoginType() == 0L) {
+                map.setLoginType("google");
+            } else if(member.getLoginType() == 1L) {
+                map.setLoginType("kakao");
+            } else if(member.getLoginType() == 3L) {
+                map.setLoginType("apple");
+            }
+            else
+            {
+                throw new MemberLoginTypeNotExistException(member.getLoginType());
+            }
+
+            map.setCreatedAt(member.getDateLog().getCreatedAt());
+
+            result.add(map);
+        }
+
+        return result;
     }
 }

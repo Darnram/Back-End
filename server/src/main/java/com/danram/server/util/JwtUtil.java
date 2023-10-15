@@ -34,7 +34,7 @@ public class JwtUtil {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", memberId);
-        claims.put("roles", Arrays.asList("ROLE_ADMIN", "ROLE_USER"));
+        claims.put("roles", Arrays.asList(/*"ROLE_ADMIN",*/ "ROLE_USER"));
 
         return Jwts.builder()
                 .setClaims(claims)
