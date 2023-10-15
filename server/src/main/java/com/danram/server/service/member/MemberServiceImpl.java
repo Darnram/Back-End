@@ -16,6 +16,7 @@ import static com.danram.server.config.MapperConfig.modelMapper;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -82,5 +83,14 @@ public class MemberServiceImpl implements MemberService {
         token.setRefreshTokenExpiredAt(LocalDate.now().plusYears(1));
 
         return LoginResponseDto.of(member,token, modelMapper);
+    }
+
+    @Override
+    public List<Authority> getAuthorities() {
+        Member member = memberRepository.findById(JwtUtil.getMemberId()).orElseThrow(
+                () -> new MemberIdNotFoundException(JwtUtil.getMemberId().toString())
+        );
+
+        return member.getAuthorities();
     }
 }
