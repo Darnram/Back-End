@@ -75,6 +75,16 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/party/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
                 .antMatchers("/token/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/user/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/auth/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/inquiry/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/chatting/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/comment/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/feed/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/friend/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/goal/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/notification/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN")
+                .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().denyAll()
                 .and().build();
     }

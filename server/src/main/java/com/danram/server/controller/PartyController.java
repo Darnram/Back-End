@@ -24,9 +24,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/party")
 @RequiredArgsConstructor
+@Api(tags = {"Party API"})
 public class PartyController {
     private final S3UploadService s3UploadService;
     private final PartyService partyService;
+
+    /**
+     * TODO
+     * 파티 검색 + 확인
+     * 파티 삭제
+     * 전체 파티 확인
+     * 비밀방
+     * */
 
     @ApiOperation("모임 추가")
     @ApiResponses({
