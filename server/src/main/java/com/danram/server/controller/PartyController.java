@@ -46,7 +46,7 @@ public class PartyController {
         String imgUrl = null;
 
         if (dto.getImg() != null) {
-            imgUrl = s3UploadService.upload(dto.getImg(),"party_image");
+            imgUrl = s3UploadService.upload(dto.getImg(),"party_image", false);
         } else {
             // 이미지 없으면 디폴트 이미지 저장
         }
@@ -145,7 +145,7 @@ public class PartyController {
         String imgUrl = null;
 
         if (dto.getImg() != null) {
-            imgUrl = s3UploadService.upload(dto.getImg(),"party_image");
+            imgUrl = s3UploadService.upload(dto.getImg(),"party_image", false);
         }
 
         return ResponseEntity.ok(partyService.editParty(dto,imgUrl));

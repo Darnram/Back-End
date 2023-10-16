@@ -2,6 +2,7 @@ package com.danram.server.service.member;
 
 import com.danram.server.domain.Authority;
 import com.danram.server.domain.Member;
+import com.danram.server.dto.request.member.MemberEditRequestDto;
 import com.danram.server.dto.response.login.LoginResponseDto;
 import com.danram.server.dto.response.login.OauthLoginResponseDto;
 import com.danram.server.dto.response.member.MemberInfoResponseDto;
@@ -19,4 +20,5 @@ public interface MemberService {
     public MemberResponseDto findByNickname(String name);
 
     public List<MemberInfoResponseDto> getAll();
+    public MemberInfoResponseDto editInfo(MemberEditRequestDto memberEditRequestDto, String upload);
 }

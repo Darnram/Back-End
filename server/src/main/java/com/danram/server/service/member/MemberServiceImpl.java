@@ -4,6 +4,7 @@ import com.danram.server.domain.Authority;
 import com.danram.server.domain.DateLog;
 import com.danram.server.domain.Member;
 import com.danram.server.domain.Token;
+import com.danram.server.dto.request.member.MemberEditRequestDto;
 import com.danram.server.dto.response.login.LoginResponseDto;
 import com.danram.server.dto.response.login.OauthLoginResponseDto;
 import com.danram.server.dto.response.member.MemberInfoResponseDto;
@@ -132,17 +133,7 @@ public class MemberServiceImpl implements MemberService {
         for(Member member : all) {
             MemberInfoResponseDto map = modelMapper.map(member, MemberInfoResponseDto.class);
 
-            if(member.getLoginType() == 0L) {
-                map.setLoginType("google");
-            } else if(member.getLoginType() == 1L) {
-                map.setLoginType("kakao");
-            } else if(member.getLoginType() == 3L) {
-                map.setLoginType("apple");
-            }
-            else
-            {
-                throw new MemberLoginTypeNotExistException(member.getLoginType());
-            }
+            map.setLoginType(getLoginType(member));
 
             map.setCreatedAt(member.getDateLog().getCreatedAt());
 
@@ -150,5 +141,41 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return result;
+    }
+
+    @Override
+    @Transactional
+    public MemberInfoResponseDto editInfo(MemberEditRequestDto memberEditRequestDto, String upload) {
+        Member member = memberRepository.findById(JwtUtil.getMemberId()).orElseThrow(
+                () -> new MemberIdNotFoundException(JwtUtil.getMemberId().toString())
+        );
+
+        if(!upload.equals(""))
+            member.setImg(upload);
+
+        if(!member.getNickname().equals(memberEditRequestDto.getNickname()) && !memberEditRequestDto.getNickname().trim().isEmpty())
+            member.setNickname(memberEditRequestDto.getNickname());
+        else
+            log.warn("member id: {} input white space name", memberEditRequestDto.getNickname());
+
+        MemberInfoResponseDto map = modelMapper.map(member, MemberInfoResponseDto.class);
+
+        map.setLoginType(getLoginType(member));
+
+        return map;
+    }
+
+    private String getLoginType(Member member) {
+        if(member.getLoginType() == 0L) {
+            return "Google";
+        } else if(member.getLoginType() == 1L) {
+            return "Kakao";
+        } else if(member.getLoginType() == 3L) {
+            return "apple";
+        }
+        else
+        {
+            throw new MemberLoginTypeNotExistException(member.getLoginType());
+        }
     }
 }
