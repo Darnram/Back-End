@@ -26,7 +26,6 @@ public class MemberController {
 
     /**
      * TODO
-     * 사용자 정보 수정
      * 회원 탈퇴
      * 로그 아웃
      * 닉네임 중복 체크
