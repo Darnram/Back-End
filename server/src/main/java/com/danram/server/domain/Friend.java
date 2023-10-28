@@ -18,13 +18,13 @@ public class Friend {
     @Id
     @NotNull
     @JoinColumn(name = "member_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Member member;
 
     @Id
     @NotNull
     @JoinColumn(name = "friend_id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Member friend;
 
 }

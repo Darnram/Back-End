@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ReqFriendDto {
+public class FriendRequestMockDto {
     private Long memberId;
 
     public static Member toMemberEntity(Long memberId) {
