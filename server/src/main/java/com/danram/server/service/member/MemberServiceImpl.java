@@ -67,6 +67,7 @@ public class MemberServiceImpl implements MemberService {
                 .loginType(oauthLoginResponseDto.getLoginType())
                 .pro(true)
                 .ban(false)
+                .signOut(0L)
                 .build();
 
         final Member save = memberRepository.save(user);
