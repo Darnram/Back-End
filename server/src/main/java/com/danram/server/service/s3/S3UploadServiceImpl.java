@@ -4,6 +4,7 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
+import com.danram.server.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,11 +21,17 @@ public class S3UploadServiceImpl implements S3UploadService {
     private String bucket;
 
     @Override
-    public String upload(MultipartFile multipartFile, String dirName) throws IOException {
-        String fileName = multipartFile.getOriginalFilename();
+    public String upload(MultipartFile multipartFile, String dirName, boolean profile) throws IOException {
+        String fileName;
 
-        //파일 형식 구하기
-        String ext = fileName.split("\\.")[1];
+        fileName = multipartFile.getOriginalFilename();
+
+        String[] parts = fileName.split("\\.");
+
+        if (parts.length < 2) {
+            throw new IllegalArgumentException("Invalid file type => file name: " + fileName);
+        }
+        String ext = parts[1];
         String contentType = "";
 
         //content type을 지정해서 올려주지 않으면 자동으로 "application/octet-stream"으로 고정이 되서 링크 클릭시 웹에서 열리는게 아니라 자동 다운이 시작됨.
@@ -47,6 +54,9 @@ public class S3UploadServiceImpl implements S3UploadService {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(contentType);
             metadata.setContentLength(multipartFile.getSize());
+
+            if(profile == true)
+                fileName = JwtUtil.getMemberId().toString() + "." + ext;
 
             amazonS3Client.putObject(new PutObjectRequest(bucket, dirName + "/" + fileName, multipartFile.getInputStream(), metadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));

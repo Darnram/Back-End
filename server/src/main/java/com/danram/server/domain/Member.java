@@ -36,6 +36,9 @@ public class Member {
     @Column(name = "ban", columnDefinition = "boolean")
     private Boolean ban;
 
+    @Column(name = "sign_out", columnDefinition = "int")
+    private Long signOut; //0 == 회원, 1 == 탈퇴 회원
+
     @JoinColumn(name = "log_id")
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private DateLog dateLog;
