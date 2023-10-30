@@ -30,7 +30,6 @@ public class MemberController {
      * 로그 아웃
      * 닉네임 중복 체크
      * 이메일 중복 체크
-     * 회원 정보 찾기
      **/
 
     @ApiOperation(value = "사용자 정보 조회")
