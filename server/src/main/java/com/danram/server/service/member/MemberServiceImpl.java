@@ -166,6 +166,11 @@ public class MemberServiceImpl implements MemberService {
         return map;
     }
 
+    @Override
+    public Boolean isDuplicatedEmail(String email) {
+        return memberRepository.findByEmail(email).isEmpty();
+    }
+
     private String getLoginType(Member member) {
         if(member.getLoginType() == 0L) {
             return "Google";

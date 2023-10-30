@@ -56,7 +56,8 @@ public class SecurityConfig {
                         "/token/**",
                         "/chat/**",
                         "/chatting/**",
-                        "/health/**"
+                        "/health/**",
+                        "/free/**"
                 );
             }
         };
