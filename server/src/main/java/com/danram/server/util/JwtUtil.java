@@ -55,12 +55,12 @@ public class JwtUtil {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", JwtUtil.getMemberId());
-        claims.put("roles", Arrays.asList(/*"ROLE_ADMIN", */"ROLE_USER"));
+        //claims.put("roles", Arrays.asList(/*"ROLE_ADMIN", */"ROLE_USER"));
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(expiredDate)
+                //.setExpiration(expiredDate)
                 .signWith(SignatureAlgorithm.HS256, JWT_SECRET_KEY)
                 .compact();
     }

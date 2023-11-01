@@ -48,10 +48,6 @@ public class MemberServiceImpl implements MemberService {
                 .authorityName("ROLE_USER")
                 .build();
 
-        Authority authority1 = Authority.builder()
-                .authorityName("ROLE_ADMIN")
-                .build();
-
         DateLog dateLog = DateLog.builder()
                 .memberId(id)
                 .description(id + "유저가 회원가입을 진행함")
@@ -60,7 +56,7 @@ public class MemberServiceImpl implements MemberService {
         Member user = Member.builder()
                 .memberId(id)
                 .dateLog(dateLog)
-                .authorities(Arrays.asList(authority, authority1))
+                .authorities(Arrays.asList(authority))
                 .email(oauthLoginResponseDto.getEmail())
                 .nickname(oauthLoginResponseDto.getNickname())
                 .img(oauthLoginResponseDto.getProfileImg())
