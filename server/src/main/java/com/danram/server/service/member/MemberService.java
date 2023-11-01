@@ -16,6 +16,7 @@ public interface MemberService {
     public LoginResponseDto signUp(OauthLoginResponseDto oauthLoginResponseDto);
     public LoginResponseDto signIn(Member member);
     public List<Authority> getAuthorities();
+    public String getAuthority();
     public MemberResponseDto getInfo();
     public MemberResponseDto findByNickname(String name);
 

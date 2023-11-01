@@ -105,6 +105,21 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public String getAuthority() {
+        Member member = memberRepository.findById(JwtUtil.getMemberId()).orElseThrow(
+                () -> new MemberIdNotFoundException(JwtUtil.getMemberId().toString())
+        );
+
+        if(member.getAuthorities().size() == 2) {
+            return "ROLE_ADMIN";
+        }
+        else if(member.getAuthorities().size() == 1)
+            return "ROLE_USER";
+        else
+            throw new MemberIdNotFoundException(JwtUtil.getMemberId().toString());
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public MemberResponseDto getInfo() {
         Member member = memberRepository.findById(JwtUtil.getMemberId()).orElseThrow(
