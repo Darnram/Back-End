@@ -23,4 +23,6 @@ public interface MemberService {
     public List<MemberInfoResponseDto> getAll();
     public MemberInfoResponseDto editInfo(MemberEditRequestDto memberEditRequestDto, String upload);
     public Boolean isDuplicatedEmail(String email);
+
+    public void signOut();
 }

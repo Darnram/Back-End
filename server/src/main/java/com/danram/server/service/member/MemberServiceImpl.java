@@ -186,6 +186,17 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findByEmail(email).isEmpty();
     }
 
+    @Override
+    @Transactional
+    public void signOut() {
+        Member member = memberRepository.findById(JwtUtil.getMemberId()).orElseThrow(
+                () -> new MemberIdNotFoundException(JwtUtil.getMemberId().toString())
+        );
+
+        member.setSignOut(1L);
+        member.setEmail(member.getEmail() + "_deleted");
+    }
+
     private String getLoginType(Member member) {
         if(member.getLoginType() == 0L) {
             return "Google";

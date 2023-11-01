@@ -46,4 +46,11 @@ public class MemberController {
 
         return ResponseEntity.ok(memberService.editInfo(memberEditRequestDto, upload));
     }
+
+    @ApiOperation("회원 탈퇴")
+    @DeleteMapping("/signout")
+    public ResponseEntity signOut() {
+        memberService.signOut();
+        return ResponseEntity.ok().build();
+    }
 }
