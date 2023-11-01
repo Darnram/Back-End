@@ -19,6 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class FreeController {
     private final MemberService memberService;
 
+    /**
+     * TODO
+     * 파티 검색, 조회
+     * 피드 조회
+     * 댓글 조회
+     * */
+
     @ApiOperation(value = "email 중복 체크")
     @GetMapping("/email")
     public ResponseEntity<Boolean> checkDuplicated(@RequestParam String email) {
