@@ -26,7 +26,6 @@ public class MemberController {
 
     /**
      * TODO
-     * 회원 탈퇴
      * 로그 아웃
      **/
 
