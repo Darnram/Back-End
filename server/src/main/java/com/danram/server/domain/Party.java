@@ -40,8 +40,8 @@ public class Party {
     @Column(name = "password", length = 6, columnDefinition = "varchar")
     private String password;
 
-    @Column(name = "party_type", length = 5, columnDefinition = "varchar")
-    private String partyType;
+    @Column(name = "party_type", columnDefinition = "int")
+    private Long partyType;
 
     @Column(name = "max", columnDefinition = "int")
     private Long max;

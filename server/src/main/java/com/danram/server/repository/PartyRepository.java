@@ -16,7 +16,7 @@ public interface PartyRepository extends JpaRepository<Party, Long> {
 
     @Query("select p from Party p where p.partyType = :partyType and " +
             "p.deletedAt is null")
-    Slice<Party> findPartyByPartyType(@Param("partyType") String partyType,Pageable pageable);
+    Slice<Party> findPartyByPartyType(@Param("partyType") Long partyType,Pageable pageable);
 
     @Query("select p from Party p where p.title like %:query% and " +
             "p.deletedAt is null")
@@ -25,5 +25,5 @@ public interface PartyRepository extends JpaRepository<Party, Long> {
     @Query("select p from Party p where p.title like %:query% and " +
             "p.partyType = :partyType and " +
             "p.deletedAt is null")
-    Slice<Party> findPartyBySearchAndPartyType(@Param("query") String query,@Param("partyType") String partyType,Pageable pageable);
+    Slice<Party> findPartyBySearchAndPartyType(@Param("query") String query,@Param("partyType") Long partyType,Pageable pageable);
 }

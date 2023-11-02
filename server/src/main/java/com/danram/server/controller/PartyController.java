@@ -77,7 +77,7 @@ public class PartyController {
             @ApiResponse(responseCode = "200",description = "모임 조회 성공")
     })
     @GetMapping("/category")
-    public ResponseEntity<List<PartyResponseDto>> getPartyByCategory(@RequestParam String partyType,@RequestParam Long sortType,@RequestParam Integer pages) {
+    public ResponseEntity<List<PartyResponseDto>> getPartyByCategory(@RequestParam Long partyType,@RequestParam Long sortType,@RequestParam Integer pages) {
         return ResponseEntity.ok(partyService.findPartyByPartyType(partyType,sortType,pages));
     }
 
@@ -96,7 +96,7 @@ public class PartyController {
     })
     @GetMapping("/search-category")
     public ResponseEntity<List<PartyResponseDto>> getPartyBySearchAndCategory(@RequestParam Long sortType,@RequestParam String query
-                                                                             ,@RequestParam String partyType,@RequestParam Integer pages) {
+                                                                             ,@RequestParam Long partyType,@RequestParam Integer pages) {
         return ResponseEntity.ok(partyService.findPartyBySearchAndPartyType(sortType,query,partyType,pages));
     }
 
