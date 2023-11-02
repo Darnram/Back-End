@@ -57,7 +57,8 @@ public class SecurityConfig {
                         "/chat/**",
                         "/chatting/**",
                         "/health/**",
-                        "/free/**"
+                        "/free/**",
+                        "/chatting/chatting-service"
                 );
             }
         };
