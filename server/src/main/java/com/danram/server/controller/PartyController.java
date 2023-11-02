@@ -31,9 +31,6 @@ public class PartyController {
 
     /**
      * TODO
-     * 파티 검색 + 확인
-     * 파티 삭제
-     * 전체 파티 확인
      * 비밀방
      * */
 

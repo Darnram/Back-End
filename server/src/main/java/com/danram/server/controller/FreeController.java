@@ -26,7 +26,6 @@ public class FreeController {
 
     /**
      * TODO
-     * 파티 검색, 조회 => Category, search, sort
      * 피드 조회
      * 댓글 조회
      * */
