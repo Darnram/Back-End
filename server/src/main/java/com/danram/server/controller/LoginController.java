@@ -25,6 +25,11 @@ public class LoginController {
     private final OAuthService oauthService;
     private final MemberService memberService;
 
+    /**
+     * TODO
+     * apple login
+     * */
+
     @GetMapping(value = "/{socialLoginType}")
     public void socialLoginType(
             @PathVariable(name = "socialLoginType") SocialLoginType socialLoginType) {

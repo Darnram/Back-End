@@ -17,6 +17,10 @@ import java.util.*;
 @Slf4j
 @Component
 public class JwtUtil {
+    /**
+     * TODO: sign with deprecated
+     * expired setting
+     * */
     public static String JWT_SECRET_KEY;
     private static final long EXPIRATION_TIME =  1000 * 60 * 60 * 24 * 365; // 365일
     private static final long REFRESH_TOKEN_EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 365; // 365일
@@ -34,12 +38,12 @@ public class JwtUtil {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", memberId);
-        claims.put("roles", Arrays.asList("ROLE_ADMIN", "ROLE_USER"));
+        //claims.put("roles", Arrays.asList(/*"ROLE_ADMIN",*/ "ROLE_USER"));
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(expiredDate)
+                //.setExpiration(expiredDate)
                 .signWith(SignatureAlgorithm.HS256, JWT_SECRET_KEY)
                 .compact();
     }
@@ -51,12 +55,12 @@ public class JwtUtil {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", JwtUtil.getMemberId());
-        claims.put("roles", Arrays.asList(/*"ROLE_ADMIN", */"ROLE_USER"));
+        //claims.put("roles", Arrays.asList(/*"ROLE_ADMIN", */"ROLE_USER"));
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(expiredDate)
+                //.setExpiration(expiredDate)
                 .signWith(SignatureAlgorithm.HS256, JWT_SECRET_KEY)
                 .compact();
     }

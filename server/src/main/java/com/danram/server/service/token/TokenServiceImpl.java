@@ -9,6 +9,7 @@ import com.danram.server.exception.token.TokenNotFoundException;
 import com.danram.server.repository.MemberRepository;
 import com.danram.server.repository.TokenRepository;
 import com.danram.server.util.JwtUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import static com.danram.server.config.MapperConfig.modelMapper;
@@ -16,15 +17,10 @@ import static com.danram.server.config.MapperConfig.modelMapper;
 import java.time.LocalDate;
 
 @Slf4j
+@RequiredArgsConstructor
 public class TokenServiceImpl implements TokenService {
     private final TokenRepository tokenRepository;
     private final MemberRepository memberRepository;
-
-    public TokenServiceImpl(final TokenRepository tokenRepository,
-                            final MemberRepository memberRepository) {
-        this.tokenRepository = tokenRepository;
-        this.memberRepository = memberRepository;
-    }
 
     @Override
     public Boolean isExpired() {

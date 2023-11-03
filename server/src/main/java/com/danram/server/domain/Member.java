@@ -21,7 +21,7 @@ public class Member {
     @Column(name = "nickname", length = 15, columnDefinition = "varchar")
     private String nickname;
 
-    @Column(name = "email", length = 30, columnDefinition = "varchar")
+    @Column(name = "email", length = 50, columnDefinition = "varchar")
     private String email;
 
     @Column(name = "login_type", columnDefinition = "int")
@@ -35,6 +35,9 @@ public class Member {
 
     @Column(name = "ban", columnDefinition = "boolean")
     private Boolean ban;
+
+    @Column(name = "sign_out", columnDefinition = "int")
+    private Long signOut; //0 == 회원, 1 == 탈퇴 회원
 
     @JoinColumn(name = "log_id")
     @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)

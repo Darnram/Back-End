@@ -28,8 +28,16 @@ public class JwtCustomFilter extends OncePerRequestFilter {
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
         final String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
+        if (authorizationHeader == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("text/plain;charset=UTF-8"); // content-type을 text/plain으로 설정
+            response.getWriter().write("JWT Token is null");
+
+            return;
+        }
+
         // bearer이 아니면 오류
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+        if (!authorizationHeader.startsWith("Bearer ")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("text/plain;charset=UTF-8"); // content-type을 text/plain으로 설정
             response.getWriter().write("JWT Token does not begin with Bearer String");

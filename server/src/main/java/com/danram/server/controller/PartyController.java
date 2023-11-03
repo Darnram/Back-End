@@ -24,9 +24,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/party")
 @RequiredArgsConstructor
+@Api(tags = {"Party API"})
 public class PartyController {
     private final S3UploadService s3UploadService;
     private final PartyService partyService;
+
+    /**
+     * TODO
+     * 비밀방
+     * */
 
     @ApiOperation("모임 추가")
     @ApiResponses({
@@ -37,7 +43,7 @@ public class PartyController {
         String imgUrl = null;
 
         if (dto.getImg() != null) {
-            imgUrl = s3UploadService.upload(dto.getImg(),"party_image");
+            imgUrl = s3UploadService.upload(dto.getImg(),"party_image", false);
         } else {
             // 이미지 없으면 디폴트 이미지 저장
         }
@@ -68,7 +74,7 @@ public class PartyController {
             @ApiResponse(responseCode = "200",description = "모임 조회 성공")
     })
     @GetMapping("/category")
-    public ResponseEntity<List<PartyResponseDto>> getPartyByCategory(@RequestParam String partyType,@RequestParam Long sortType,@RequestParam Integer pages) {
+    public ResponseEntity<List<PartyResponseDto>> getPartyByCategory(@RequestParam Long partyType,@RequestParam Long sortType,@RequestParam Integer pages) {
         return ResponseEntity.ok(partyService.findPartyByPartyType(partyType,sortType,pages));
     }
 
@@ -87,7 +93,7 @@ public class PartyController {
     })
     @GetMapping("/search-category")
     public ResponseEntity<List<PartyResponseDto>> getPartyBySearchAndCategory(@RequestParam Long sortType,@RequestParam String query
-                                                                             ,@RequestParam String partyType,@RequestParam Integer pages) {
+                                                                             ,@RequestParam Long partyType,@RequestParam Integer pages) {
         return ResponseEntity.ok(partyService.findPartyBySearchAndPartyType(sortType,query,partyType,pages));
     }
 
@@ -136,7 +142,7 @@ public class PartyController {
         String imgUrl = null;
 
         if (dto.getImg() != null) {
-            imgUrl = s3UploadService.upload(dto.getImg(),"party_image");
+            imgUrl = s3UploadService.upload(dto.getImg(),"party_image", false);
         }
 
         return ResponseEntity.ok(partyService.editParty(dto,imgUrl));

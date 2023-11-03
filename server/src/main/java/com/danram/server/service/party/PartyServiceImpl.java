@@ -14,6 +14,7 @@ import com.danram.server.repository.MemberRepository;
 import com.danram.server.repository.PartyMemberRepository;
 import com.danram.server.repository.PartyRepository;
 import com.danram.server.util.JwtUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,18 +32,11 @@ import java.util.Optional;
 import static com.danram.server.config.MapperConfig.modelMapper;
 
 @Slf4j
+@RequiredArgsConstructor
 public class PartyServiceImpl implements PartyService {
     private final PartyRepository partyRepository;
     private final PartyMemberRepository partyMemberRepository;
     private final MemberRepository memberRepository;
-
-    public PartyServiceImpl(final PartyRepository partyRepository,
-                            final PartyMemberRepository partyMemberRepository,
-                            final MemberRepository memberRepository) {
-        this.partyRepository = partyRepository;
-        this.partyMemberRepository = partyMemberRepository;
-        this.memberRepository = memberRepository;
-    }
 
     @Override
     @Transactional
@@ -99,7 +93,7 @@ public class PartyServiceImpl implements PartyService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PartyResponseDto> findPartyByPartyType(String partyType, Long sortType, Integer pages) {
+    public List<PartyResponseDto> findPartyByPartyType(Long partyType, Long sortType, Integer pages) {
         Pageable pageable = getPageable(sortType, pages);
         Slice<Party> partyList = partyRepository.findPartyByPartyType(partyType,pageable);
 
@@ -117,7 +111,7 @@ public class PartyServiceImpl implements PartyService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PartyResponseDto> findPartyBySearchAndPartyType(Long sortType, String query, String partyType, Integer pages) {
+    public List<PartyResponseDto> findPartyBySearchAndPartyType(Long sortType, String query, Long partyType, Integer pages) {
         Pageable pageable = getPageable(sortType,pages);
         Slice<Party> partyList = partyRepository.findPartyBySearchAndPartyType(query,partyType,pageable);
 
