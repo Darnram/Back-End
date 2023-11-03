@@ -30,4 +30,8 @@ public class AuthController {
         return ResponseEntity.ok(memberService.getAuthorities());
     }
 
+    @GetMapping("role")
+    public ResponseEntity<String> getAuth() {
+        return ResponseEntity.ok(memberService.getAuthority());
+    }
 }

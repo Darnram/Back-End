@@ -21,7 +21,7 @@ public class Member {
     @Column(name = "nickname", length = 15, columnDefinition = "varchar")
     private String nickname;
 
-    @Column(name = "email", length = 30, columnDefinition = "varchar")
+    @Column(name = "email", length = 50, columnDefinition = "varchar")
     private String email;
 
     @Column(name = "login_type", columnDefinition = "int")

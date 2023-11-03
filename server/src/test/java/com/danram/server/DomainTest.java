@@ -29,7 +29,6 @@ public class DomainTest {
     public void domain_test() {
         //given
         Authority user = new Authority("ROLE_USER");
-        Authority admin = new Authority("ROLE_ADMIN");
 
         Long id = System.currentTimeMillis();
 
@@ -42,7 +41,7 @@ public class DomainTest {
 
         Member member = Member.builder()
                 .memberId(id)
-                .authorities(List.of(user, admin))
+                .authorities(List.of(user))
                 .ban(false)
                 .email("djs9844@naver.com")
                 .img("https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202301/03/startoday/20230103103009408tnvd.jpg")

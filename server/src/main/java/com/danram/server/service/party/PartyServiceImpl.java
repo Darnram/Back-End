@@ -93,7 +93,7 @@ public class PartyServiceImpl implements PartyService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PartyResponseDto> findPartyByPartyType(String partyType, Long sortType, Integer pages) {
+    public List<PartyResponseDto> findPartyByPartyType(Long partyType, Long sortType, Integer pages) {
         Pageable pageable = getPageable(sortType, pages);
         Slice<Party> partyList = partyRepository.findPartyByPartyType(partyType,pageable);
 
@@ -111,7 +111,7 @@ public class PartyServiceImpl implements PartyService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PartyResponseDto> findPartyBySearchAndPartyType(Long sortType, String query, String partyType, Integer pages) {
+    public List<PartyResponseDto> findPartyBySearchAndPartyType(Long sortType, String query, Long partyType, Integer pages) {
         Pageable pageable = getPageable(sortType,pages);
         Slice<Party> partyList = partyRepository.findPartyBySearchAndPartyType(query,partyType,pageable);
 

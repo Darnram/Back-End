@@ -62,6 +62,18 @@ dependencies {
     //s3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
     implementation 'com.amazonaws:aws-java-sdk-s3:1.11.1027'
+
+    //chatting
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    //dynamodb
+    implementation 'com.github.derjust:spring-data-dynamodb:5.1.0'
+    implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.11.805'
+
+    //cache
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
 }
 
 tasks.named('test') {

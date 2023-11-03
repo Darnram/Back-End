@@ -23,6 +23,12 @@ spring:
     generate-ddl: false
   mvc.pathmatch.matching-strategy: ANT_PATH_MATCHER # Swagger-ui
 
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+  cache:
+    type: redis
+
 logging:
   slack:
     webhook-url: ${SLACK_WEBHOOK_URL}
@@ -51,3 +57,11 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+
+amazon:
+  dynamodb:
+    endpoint: ${DYNAMODB_ENDPOINT}
+    region: ${DYNAMODB_REGION}
+  aws:
+    accessKey: ${DYNAMODB_ACCESS_KEY}
+    secretKey: ${DYNAMODB_SECRET_KEY}

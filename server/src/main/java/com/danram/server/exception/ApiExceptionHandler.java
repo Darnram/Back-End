@@ -1,5 +1,6 @@
 package com.danram.server.exception;
 
+import com.danram.server.exception.chatting.ChattingRoomDataNotExistException;
 import com.danram.server.exception.member.MemberLoginTypeNotExistException;
 import com.danram.server.exception.party.*;
 import com.danram.server.exception.token.TokenNotFoundException;
@@ -82,6 +83,15 @@ public class ApiExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleException(MemberLoginTypeNotExistException ex) {
         ApiErrorResponse response = new ApiErrorResponse("DEL-001", "login type: " + ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * chatting error DEC
+     * */
+    @ExceptionHandler(ChattingRoomDataNotExistException.class)
+    public ResponseEntity<ApiErrorResponse> handleException(ChattingRoomDataNotExistException ex) {
+        ApiErrorResponse response = new ApiErrorResponse("DEC-001", "chatting error: " + ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     /**

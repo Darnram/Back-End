@@ -26,4 +26,7 @@ public class Alarm {
 
     @Column(name = "frequency", length = 8, columnDefinition = "varchar")
     private String frequency;
+
+    @Column(name = "log_id", columnDefinition = "int")
+    private Long logId;
 }

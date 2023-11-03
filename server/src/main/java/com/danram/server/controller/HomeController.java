@@ -12,17 +12,18 @@ import java.net.URI;
 @RestController
 @RequestMapping("/")
 public class HomeController {
-    /*@GetMapping
+    @GetMapping
     public ResponseEntity<?> redirect() {
         HttpHeaders headers = new HttpHeaders();
 
         headers.setLocation(URI.create("/swagger-ui/"));
 
         return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
-    }*/
+    }
 
+    /*
     @GetMapping("/")
     public String redirect() {
         return "/swagger-ui/";
-    }
+    }*/
 }

@@ -13,9 +13,9 @@ public interface PartyService {
 
     List<PartyResponseDto> findParty(Long sortType,Integer pages);
     List<PartyResponseDto> findMyParty(Integer pages);
-    List<PartyResponseDto> findPartyByPartyType(String partyType,Long sortType,Integer pages);
+    List<PartyResponseDto> findPartyByPartyType(Long partyType,Long sortType,Integer pages);
     List<PartyResponseDto> findPartyBySearch(Long sortType,String query,Integer pages);
-    List<PartyResponseDto> findPartyBySearchAndPartyType(Long sortType,String query,String partyType,Integer pages);
+    List<PartyResponseDto> findPartyBySearchAndPartyType(Long sortType,String query,Long partyType,Integer pages);
 
     List<PartyMemberResponseDto> findPartyMember(Long partyId);
 

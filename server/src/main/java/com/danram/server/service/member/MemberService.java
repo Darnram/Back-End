@@ -16,9 +16,13 @@ public interface MemberService {
     public LoginResponseDto signUp(OauthLoginResponseDto oauthLoginResponseDto);
     public LoginResponseDto signIn(Member member);
     public List<Authority> getAuthorities();
+    public String getAuthority();
     public MemberResponseDto getInfo();
     public MemberResponseDto findByNickname(String name);
 
     public List<MemberInfoResponseDto> getAll();
     public MemberInfoResponseDto editInfo(MemberEditRequestDto memberEditRequestDto, String upload);
+    public Boolean isDuplicatedEmail(String email);
+
+    public void signOut();
 }
