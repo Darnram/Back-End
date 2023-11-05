@@ -61,7 +61,7 @@ public class MemberServiceImpl implements MemberService {
                 .nickname(oauthLoginResponseDto.getNickname())
                 .img(oauthLoginResponseDto.getProfileImg())
                 .loginType(oauthLoginResponseDto.getLoginType())
-                .pro(true)
+                .pro(false)
                 .ban(false)
                 .signOut(0L)
                 .build();

@@ -1,8 +1,10 @@
 package com.danram.server.domain;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -26,9 +28,6 @@ public class Feed {
     @Column(name = "log_id", columnDefinition = "int")
     private Long logId;
 
-    @Column(name = "img", columnDefinition = "text")
-    private String img;
-
     @Column(name = "content", columnDefinition = "text")
     private String content;
 
@@ -37,4 +36,12 @@ public class Feed {
 
     @Column(name = "comment_count",columnDefinition = "int")
     private Long commentCount;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "feed_image",
+            joinColumns = {@JoinColumn(name = "feed_id", referencedColumnName = "feed_id")},
+            inverseJoinColumns = {@JoinColumn(name = "image_id", referencedColumnName = "image_id")})
+    @ApiModelProperty(example = "feed images")
+    private List<Image> images;
 }

@@ -50,4 +50,14 @@ public class Member {
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
     @ApiModelProperty(example = "사용자 권한 정보들")
     private List<Authority> authorities;
+
+    public Boolean contain(String role) {
+        for(Authority authority: authorities) {
+            if(authority.getAuthorityName().equals(role)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

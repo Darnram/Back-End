@@ -29,9 +29,10 @@ public class DateLog {
     @CreationTimestamp
     private LocalDate createdAt;
 
-    public static DateLog of(Long id) {
+    public static DateLog of(Long id, String description) {
         return DateLog.builder()
                 .memberId(id)
+                .description(description)
                 .createdAt(LocalDate.now())
                 .build();
     }

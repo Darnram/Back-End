@@ -6,6 +6,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.danram.server.repository.*;
 import com.danram.server.service.chatting.DynamoDBService;
 import com.danram.server.service.chatting.DynamoDBServiceImpl;
+import com.danram.server.service.feed.FeedService;
+import com.danram.server.service.feed.FeedServiceImpl;
 import com.danram.server.service.member.MemberService;
 import com.danram.server.service.member.MemberServiceImpl;
 import com.danram.server.service.party.PartyService;
@@ -30,6 +32,8 @@ public class SpringConfig {
     private final PartyMemberRepository partyMemberRepository;
     private final DynamoDBMapper dynamoDBMapper;
     private final AmazonDynamoDB amazonDynamoDB;
+    private final FeedRepository feedRepository;
+    private final ImageRepository imageRepository;
 
     @Bean
     public MemberService memberService() {
@@ -54,5 +58,10 @@ public class SpringConfig {
     @Bean
     public DynamoDBService dynamoDBService() {
         return new DynamoDBServiceImpl(dynamoDBMapper, amazonDynamoDB);
+    }
+
+    @Bean
+    public FeedService feedService() {
+        return new FeedServiceImpl(feedRepository, memberRepository, imageRepository, dateLogRepository);
     }
 }

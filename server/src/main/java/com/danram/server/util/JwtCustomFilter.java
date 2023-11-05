@@ -1,5 +1,8 @@
 package com.danram.server.util;
 
+import com.danram.server.domain.Member;
+import com.danram.server.exception.member.MemberIdNotFoundException;
+import com.danram.server.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +26,7 @@ import java.util.Optional;
 public class JwtCustomFilter extends OncePerRequestFilter {
     @Value("${jwt.secret}")
     private String secretKey;
+    private MemberRepository memberRepository;
 
     @Override
     protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
@@ -59,6 +63,13 @@ public class JwtCustomFilter extends OncePerRequestFilter {
 
         Long id = JwtUtil.getMemberId();
 
+        final Optional<Member> memberOptional = memberRepository.findById(id);
+
+        //member 검증
+        final Member member = memberOptional.orElseThrow(
+                () -> new MemberIdNotFoundException(id.toString())
+        );
+
         // Token 만료 체크
         if (JwtUtil.isExpired(token)) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
@@ -70,10 +81,10 @@ public class JwtCustomFilter extends OncePerRequestFilter {
 
         String role;
 
-        if(JwtUtil.getRoles().contains("ROLE_ADMIN")) {
+        if(member.contain("ROLE_ADMIN")) {
             role = "ROLE_ADMIN";
         }
-        else if(JwtUtil.getRoles().contains("ROLE_USER")) {
+        else if(member.contain("ROLE_USER")) {
             role = "ROLE_USER";
         }
         else {
@@ -85,7 +96,7 @@ public class JwtCustomFilter extends OncePerRequestFilter {
         }
 
         // 권한 부여
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(id, null, List.of(new SimpleGrantedAuthority(role)));
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(member, null, List.of(new SimpleGrantedAuthority(role)));
 
         // UserDetail을 통해 인증된 사용자 정보를 SecurityContext에 저장
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
