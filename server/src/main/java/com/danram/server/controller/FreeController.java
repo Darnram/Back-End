@@ -27,7 +27,7 @@ public class FreeController {
     /**
      * TODO
      * 피드 조회
-     * 댓글 조회
+     * 댓글 조회회
      * */
 
     @ApiOperation(value = "email 중복 체크")
